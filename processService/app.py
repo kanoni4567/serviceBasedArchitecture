@@ -24,7 +24,16 @@ HEADERS = {"content-type": "application/json"}
 
 
 def get_item_stats():
-    pass
+    logger.info("Start responding get request to /events/stats")
+    try:
+        with open(datastore_file) as json_data_file:
+            current_stat = json.load(json_data_file)
+        logger.debug('Responding wish current stats %s', current_stat)
+        logger.info("Finished responding get request to /events/stats")
+        return current_stat, 200
+    except FileNotFoundError:
+        logger.error("Statistic file does not exist.")
+    return NoContent, 404
 
 
 def populate_stats():
@@ -43,7 +52,7 @@ def populate_stats():
     except FileNotFoundError:
         logger.warning("Statistic file not exist, creating a new file.")
 
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     params = {'startDate': last_update_date, 'endDate': current_date}
     items_response = requests.get(STORE_SERVICE_ITEM_URL, headers=HEADERS, params=params)
@@ -68,11 +77,13 @@ def populate_stats():
     result_stats = {
         "num_item_postings": num_item_postings,
         "num_wishlist_items": num_wishlist_items,
-        "updated_timestamp": current_date.strftime("%Y-%m-%d %H:%M:%S")
+        "updated_timestamp": current_date
     }
     logger.debug('Updated statistics: %s', result_stats)
     with open(datastore_file, 'w') as fp:
         json.dump(result_stats, fp)
+
+    logger.info("Finished Periodic Processing")
 
 
 
@@ -84,7 +95,7 @@ def init_scheduler():
     sched.start()
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-# app.add_api("openapi.yaml")
+app.add_api("openapi.yaml")
 
 if __name__ == "__main__":
     # run our standalone gevent server

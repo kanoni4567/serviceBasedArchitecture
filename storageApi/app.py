@@ -45,7 +45,8 @@ def get_item(startDate=None, endDate=None):
 
     if startDate is not None and endDate is not None:
         results = (session.query(Item)
-                 .filter(and_(Item.date_created >= startDate, Item.date_created <= endDate)))
+                 .filter(and_(Item.date_created >= datetime.datetime.strptime(startDate, "%Y-%m-%dT%H:%M:%S"),
+                              Item.date_created <= datetime.datetime.strptime(endDate, "%Y-%m-%dT%H:%M:%S"))))
     else:
         results = session.query(Item).all()
 
@@ -85,7 +86,8 @@ def get_wishlistItem(startDate=None, endDate=None):
 
     if startDate is not None and endDate is not None:
         results = (session.query(WishlistItem)
-                 .filter(and_(WishlistItem.date_created >= startDate, WishlistItem.date_created <= endDate)))
+                 .filter(and_(WishlistItem.date_created >= datetime.datetime.strptime(startDate, "%Y-%m-%dT%H:%M:%S"),
+                              WishlistItem.date_created <= datetime.datetime.strptime(endDate, "%Y-%m-%dT%H:%M:%S"))))
     else:
         results = session.query(WishlistItem).all()
 

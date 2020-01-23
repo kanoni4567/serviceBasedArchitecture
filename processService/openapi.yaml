@@ -26,7 +26,7 @@ paths:
         200:
           description: current stats
           schema:
-          $ref: '#/definitions/ItemStats'
+            $ref: '#/definitions/ItemStats'
         404:
           description: stats do not exist
 definitions:
