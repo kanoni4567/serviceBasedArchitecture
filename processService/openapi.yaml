@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  description: |
+    This is an API for processing item postings & wishlist items.
+  version: 1.0.0
+  title: Process items
+  contact:
+    email: kanoni4567@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+- name: items
+  description: Items for sale
+- name: wishlistItems
+  description: Wishlist entries
+paths:
+  /events/stats:
+    get:
+      summary: gets events stats for item postings & wishlist
+      operationId: app.get_item_stats
+      description: Gets item stats
+      produces:
+        - application/json
+      responses:
+        200:
+          description: current stats
+          schema:
+          $ref: '#/definitions/ItemStats'
+        404:
+          description: stats do not exist
+definitions:
+  ItemStats:
+    type: object
+    required:
+      - num_item_postings
+      - num_wishlist_items
+      - updated_timestamp
+    properties:
+      num_item_postings:
+        type: integer
+        example: 1023
+      num_wishlist_items:
+        type: integer
+        example: 1023
+      updated_timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
