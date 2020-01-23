@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  description: |
+    This is an API for selling & wishlisting items.
+  version: 1.0.0
+  title: Wishlist items
+  contact:
+    email: kanoni4567@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+# host: petstore.swagger.io
+# basePath: /v2
+tags:
+- name: items
+  description: Items for sale
+  # externalDocs:
+  #   description: Find out more
+  #   url: http://swagger.io
+- name: wishlistItems
+  description: Wishlist entries
+# - name: user
+#   description: Operations about user
+#   externalDocs:
+#     description: Find out more about our store
+#     url: http://swagger.io
+# schemes:
+# - http
+paths:
+  /items:
+    post:
+      tags:
+      - items
+      summary: Add a new item for sale
+      operationId: app.addItem
+      consumes:
+      - application/json
+      # - application/xml
+      produces:
+      - application/json
+      # - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Item object that needs to be added
+        required: true
+        schema:
+          $ref: '#/definitions/Item'
+      responses:
+        405:
+          description: Invalid input
+        201:
+          description: Item successfully added
+#    put:
+#      tags:
+#      - items
+#      summary: Update an existing item
+#      operationId: app.updateItem
+#      consumes:
+#      - application/json
+#      produces:
+#      - application/json
+#      parameters:
+#      - in: body
+#        name: body
+#        description: Item object that needs to be updated
+#        required: true
+#        schema:
+#          $ref: '#/definitions/Item'
+#      responses:
+#        201:
+#          description: Successfully updated item
+#        400:
+#          description: Invalid ID supplied
+#        404:
+#          description: Item not found
+  /wishlistItems:
+    post:
+      tags:
+      - wishlistItems
+      summary: Add a new wishlist item
+      operationId: app.addWishListItem
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Wishlist item object that needs to be added
+        required: true
+        schema:
+          $ref: '#/definitions/wishlistItem'
+      responses:
+        405:
+          description: Invalid input
+        201:
+          description: Item successfully added
+#    put:
+#      tags:
+#      - wishlistItems
+#      summary: Update an existing wishlist item
+#      operationId: app.updateWishlistItem
+#      consumes:
+#      - application/json
+#      produces:
+#      - application/json
+#      parameters:
+#      - in: body
+#        name: body
+#        description: Wishlist item object that needs to be updated
+#        required: true
+#        schema:
+#          $ref: '#/definitions/wishlistItem'
+#      responses:
+#        201:
+#          description: Successfully updated item
+#        400:
+#          description: Invalid ID supplied
+#        404:
+#          description: Item not found
+definitions:
+  Item:
+    type: object
+    required:
+      - name
+      - sellerId
+      - status
+      - price
+      - description
+      - timestamp
+    properties:
+      sellerId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      price:
+        type: integer
+        format: int64
+        example: 100
+      description:
+        type: string
+        example: A laptop, good condition
+      name:
+        type: string
+        example: laptop
+      timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      status:
+        type: string
+        description: item status
+        example: available
+        enum:
+        - available
+        - sold
+  wishlistItem:
+    type: object
+    required:
+      - itemId
+      - userId
+      - notifyChanges
+    properties:
+      userId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      itemId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2h0
+      notifyChanges:
+        type: boolean
+        example: true

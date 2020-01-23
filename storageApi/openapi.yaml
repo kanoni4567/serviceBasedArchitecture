@@ -1,0 +1,162 @@
+swagger: '2.0'
+info:
+  description: This is a simple API
+  version: 1.0.0
+  title: Patient vitals API
+
+paths:
+  /items:
+    post:
+      summary: adds item for sale
+      operationId: app.add_item
+      description: Stores an item posting
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: item
+        description: Item information
+        schema:
+          $ref: '#/definitions/Item'
+      responses:
+        201:
+          description: item added
+        400:
+          description: invalid input, object invalid
+
+    get:
+      summary: gets posted item
+      operationId: app.get_item
+      description: Gets info about an item
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: startDate
+        description: pass an optional search string for looking up the event
+        required: true
+        type: string
+        format: date-time
+      - in: query
+        name: endDate
+        description: pass an optional search string for looking up the event
+        required: true
+        type: string
+        format: date-time
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        400:
+          description: bad input parameter
+
+  /wishlistItems:
+    post:
+      summary: adds a wishlist entry
+      operationId: app.add_wishlistItem
+      description: Stores a wishlist entry
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: wishlistItem
+        description: Wishlist item
+        schema:
+          $ref: '#/definitions/wishlistItem'
+      responses:
+        201:
+          description: item added
+        400:
+          description: invalid input, object invalid
+
+    get:
+      summary: gets a wishlist entry
+      operationId: app.get_wishlistItem
+      description: Stores a a wishlist entry
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          name: startDate
+          description: pass an optional search string for looking up the event
+          required: true
+          type: string
+          format: date-time
+        - in: query
+          name: endDate
+          description: pass an optional search string for looking up the event
+          required: true
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/wishlistItem'
+        400:
+          description: bad input parameter
+
+definitions:
+  Item:
+    type: object
+    required:
+      - name
+      - sellerId
+      - status
+      - price
+      - description
+      - timestamp
+    properties:
+      sellerId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      price:
+        type: integer
+        format: int64
+        example: 100
+      description:
+        type: string
+        example: A laptop, good condition
+      name:
+        type: string
+        example: laptop
+      timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      status:
+        type: string
+        description: item status
+        example: available
+        enum:
+          - available
+          - sold
+  wishlistItem:
+    type: object
+    required:
+      - itemId
+      - userId
+      - notifyChanges
+    properties:
+      userId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      itemId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2h0
+      notifyChanges:
+        type: boolean
+        example: true
+
