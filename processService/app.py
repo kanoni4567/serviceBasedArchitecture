@@ -42,7 +42,7 @@ def populate_stats():
     last_update_date = "2020-01-22T11:55:01"
     prev_num_item_postings = 0
     prev_num_wishlist_items = 0
-    stats = dict()
+
     try:
         with open(datastore_file) as json_data_file:
             current_stat = json.load(json_data_file)

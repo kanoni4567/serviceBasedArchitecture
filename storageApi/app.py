@@ -1,4 +1,5 @@
 import connexion
+import yaml
 
 from connexion import NoContent
 
@@ -11,7 +12,20 @@ from item import Item
 from wishlistItem import WishlistItem
 import datetime
 
-DB_ENGINE = create_engine('sqlite:///items.sqlite')
+with open('app_conf.yml', 'r') as f:
+    app_config = yaml.safe_load(f.read())
+    datastore = app_config['datastore']
+    db_user = datastore['user']
+    db_password = datastore['password']
+    db_hostname = datastore['hostname']
+    db_port = datastore['port']
+    db_schema = datastore['db']
+
+
+
+
+DB_ENGINE = create_engine('mysql+pymysql://{0}:{1}@{2}:{3}/{4}'.format(db_user, db_password, db_hostname, db_port, db_schema))
+# DB_ENGINE = create_engine('sqlite:///items.sqlite')
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
