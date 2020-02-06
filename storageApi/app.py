@@ -1,4 +1,5 @@
 import json
+import logging
 
 import connexion
 import yaml
@@ -31,7 +32,11 @@ with open('app_conf.yml', 'r') as f:
     kafka_port = kafka_conf['port']
     kafka_topic = kafka_conf['topic']
 
+with open('log_conf.yml', 'r') as f:
+    log_config = yaml.safe_load(f.read())
+    logging.config.dictConfig(log_config)
 
+logger = logging.getLogger('basicLogger')
 
 
 DB_ENGINE = create_engine('mysql+pymysql://{0}:{1}@{2}:{3}/{4}'.format(db_user, db_password, db_hostname, db_port, db_schema))
@@ -76,7 +81,7 @@ def get_item(startDate=None, endDate=None):
 
     for result in results:
         results_list.append(result.to_dict())
-        print(result.to_dict())
+        logger.info(result.to_dict())
 
     session.close()
 
@@ -137,7 +142,7 @@ def add_item_to_db(item):
 
     session.commit()
     session.close()
-    print('Added an item to database.')
+    logger.info('Added an item to database.')
     return
 
 def add_wishlistItem_to_db(wishlistItem):
@@ -151,7 +156,7 @@ def add_wishlistItem_to_db(wishlistItem):
 
     session.commit()
     session.close()
-    print('Added a wishlist item to database.')
+    logger.info('Added a wishlist item to database.')
     return
 
 
@@ -165,11 +170,11 @@ def process_messages():
         msg = json.loads(msg_str)
         # Check the type and add to the DB
         if msg['type'] == 'item':
-            print('Received a message of type item', json.dumps(msg['payload']))
+            logger.info('Received a message of type item', json.dumps(msg['payload']))
             add_item_to_db(msg['payload'])
         elif msg['type'] == 'wishlistItem':
             add_wishlistItem_to_db(msg['payload'])
-            print('Received a message of type wishlistItem', json.dumps(msg['payload']))
+            logger.info('Received a message of type wishlistItem', json.dumps(msg['payload']))
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
