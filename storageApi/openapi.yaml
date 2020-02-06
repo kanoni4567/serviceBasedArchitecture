@@ -6,25 +6,25 @@ info:
 
 paths:
   /items:
-    post:
-      summary: adds item for sale
-      operationId: app.add_item
-      description: Stores an item posting
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: item
-        description: Item information
-        schema:
-          $ref: '#/definitions/Item'
-      responses:
-        201:
-          description: item added
-        400:
-          description: invalid input, object invalid
+#    post:
+#      summary: adds item for sale
+#      operationId: app.add_item
+#      description: Stores an item posting
+#      consumes:
+#      - application/json
+#      produces:
+#      - application/json
+#      parameters:
+#      - in: body
+#        name: item
+#        description: Item information
+#        schema:
+#          $ref: '#/definitions/Item'
+#      responses:
+#        201:
+#          description: item added
+#        400:
+#          description: invalid input, object invalid
 
     get:
       summary: gets posted item
@@ -56,25 +56,25 @@ paths:
           description: bad input parameter
 
   /wishlistItems:
-    post:
-      summary: adds a wishlist entry
-      operationId: app.add_wishlistItem
-      description: Stores a wishlist entry
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: wishlistItem
-        description: Wishlist item
-        schema:
-          $ref: '#/definitions/wishlistItem'
-      responses:
-        201:
-          description: item added
-        400:
-          description: invalid input, object invalid
+#    post:
+#      summary: adds a wishlist entry
+#      operationId: app.add_wishlistItem
+#      description: Stores a wishlist entry
+#      consumes:
+#      - application/json
+#      produces:
+#      - application/json
+#      parameters:
+#      - in: body
+#        name: wishlistItem
+#        description: Wishlist item
+#        schema:
+#          $ref: '#/definitions/wishlistItem'
+#      responses:
+#        201:
+#          description: item added
+#        400:
+#          description: invalid input, object invalid
 
     get:
       summary: gets a wishlist entry

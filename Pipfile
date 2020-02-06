@@ -13,6 +13,7 @@ swagger-ui = "*"
 apscheduler-bundle = "*"
 mysql-connector-python = "*"
 pymysql = "*"
+pykafka = "*"
 
 [requires]
 python_version = "3.7"

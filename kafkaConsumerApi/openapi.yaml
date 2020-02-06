@@ -1,0 +1,108 @@
+swagger: '2.0'
+info:
+  description: This is a simple API for consuming kafka event messages
+  version: 1.0.0
+  title: Kafka consumer
+
+paths:
+  /items:
+    get:
+      summary: gets posted item by offset
+      operationId: app.get_item_by_offset
+      description: Gets info about an item
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: offset
+        description: find item message by its offset
+        required: true
+        type: integer
+      responses:
+        200:
+          description: event message matching offset
+          schema:
+            # type: object
+            # item:
+            $ref: '#/definitions/Item'
+        400:
+          description: bad input parameter
+
+  /wishlistItems:
+    get:
+      summary: gets wishlist item by offset
+      operationId: app.get_wishlistItem_by_offset
+      description: Gets info about a wishlist item
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: offset
+        description: find message by its offset
+        required: true
+        type: integer
+      responses:
+        200:
+          description: event message matching offset
+          schema:
+            # type: object
+            # item:
+            $ref: '#/definitions/wishlistItem'
+        400:
+          description: bad input parameter
+
+definitions:
+  Item:
+    type: object
+    required:
+      - name
+      - sellerId
+      - status
+      - price
+      - description
+      - timestamp
+    properties:
+      sellerId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      price:
+        type: integer
+        format: int64
+        example: 100
+      description:
+        type: string
+        example: A laptop, good condition
+      name:
+        type: string
+        example: laptop
+      timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      status:
+        type: string
+        description: item status
+        example: available
+        enum:
+          - available
+          - sold
+  wishlistItem:
+    type: object
+    required:
+      - itemId
+      - userId
+      - notifyChanges
+    properties:
+      userId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2hi
+      itemId:
+        type: string
+        format: uuid
+        example: j23joi-hoid2b-adoi-dsoaiou2h2h0
+      notifyChanges:
+        type: boolean
+        example: true
+
