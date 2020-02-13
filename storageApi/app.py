@@ -1,10 +1,12 @@
 import json
 import logging
+import logging.config
 
 import connexion
 import yaml
 
 from connexion import NoContent
+from flask_cors import CORS
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 
@@ -68,6 +70,7 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 def get_item(startDate=None, endDate=None):
     """ Get item posting from the data store """
 
+    logger.info('Getting items from database.')
     results_list = []
 
     session = DB_SESSION()
@@ -108,7 +111,7 @@ def get_item(startDate=None, endDate=None):
 
 def get_wishlistItem(startDate=None, endDate=None):
     """ Get wish list item from the data store """
-
+    logger.info('Getting wishlist items from database.')
     results_list = []
 
     session = DB_SESSION()
@@ -178,6 +181,8 @@ def process_messages():
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
+CORS(app.app)
+app.app.config['CORS_HEADERS'] = 'Content-Type'
 app.add_api("openapi.yaml")
 
 if __name__ == "__main__":
