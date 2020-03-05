@@ -26,15 +26,16 @@ with open('log_conf.yml', 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
-topic = client.topics[kafka_topic]
-producer = topic.get_sync_producer()
+
 
 def addItem(body):
     msg = {"type": "item",
            "datetime": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
            "payload": body}
     msg_str = json.dumps(msg)
+    client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
+    topic = client.topics[kafka_topic]
+    producer = topic.get_sync_producer()
     producer.produce(msg_str.encode('utf-8'))
     # response = requests.post(STORE_SERVICE_ITEM_URL, json=body, headers=HEADERS)
     logger.info('Added an item')
@@ -49,6 +50,9 @@ def addWishListItem(body):
            "datetime": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
            "payload": body}
     msg_str = json.dumps(msg)
+    client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
+    topic = client.topics[kafka_topic]
+    producer = topic.get_sync_producer()
     producer.produce(msg_str.encode('utf-8'))
     logger.info('Added a wishlist item')
     # response = requests.post(STORE_SERVICE_WISHLIST_ITEM_URL, json=body, headers=HEADERS)

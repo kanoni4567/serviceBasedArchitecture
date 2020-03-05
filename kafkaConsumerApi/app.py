@@ -22,11 +22,12 @@ with open('log_conf.yml', 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
-topic = client.topics[kafka_topic]
+
 
 
 def get_item_by_offset(offset):
+    client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
+    topic = client.topics[kafka_topic]
     consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=100)
     i = 0;
     for msg in consumer:
@@ -43,6 +44,8 @@ def get_item_by_offset(offset):
     return NoContent, 400
 
 def get_wishlistItem_by_offset(offset):
+    client = KafkaClient(hosts=kafka_server + ':' + str(kafka_port))
+    topic = client.topics[kafka_topic]
     consumer = topic.get_simple_consumer(reset_offset_on_start=True, fetch_wait_max_ms=100)
     i = 0;
     for msg in consumer:
