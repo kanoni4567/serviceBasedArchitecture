@@ -50,6 +50,8 @@ services:
     depends_on:
       - "db"
       - "kafka"
+    volumes:
+      - ../storageApi:/config
   receiver:
     image: receiver
     ports:
@@ -57,16 +59,22 @@ services:
     depends_on:
       - "db"
       - "kafka"
+    volumes:
+      - ../receiverApi:/config
   process:
     image: process
     ports:
       - "8100:8100"
+    volumes:
+      - ../processService:/config
   kafkaconsumer:
     image: kafkaconsumer
     ports:
       - "8110:8110"
     depends_on:
       - "kafka"
+    volumes:
+      - ../kafkaConsumerApi:/config
 # Names our volume
 volumes:
   my-db:
