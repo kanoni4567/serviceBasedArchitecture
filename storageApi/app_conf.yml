@@ -6,6 +6,6 @@ datastore:
       port: 3306
       db: events
 kafka:
-      server: 44.233.114.160
+      server: kafka
       port: 9092
       topic: events
