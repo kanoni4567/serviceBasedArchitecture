@@ -9,8 +9,8 @@ from connexion import NoContent
 from flask_cors import CORS
 from pykafka import KafkaClient
 
-STORE_SERVICE_ITEM_URL = "http://localhost:8090/items"
-STORE_SERVICE_WISHLIST_ITEM_URL = "http://localhost:8090/wishlistItems"
+STORE_SERVICE_ITEM_URL = "http://44.233.114.160:8090/items"
+STORE_SERVICE_WISHLIST_ITEM_URL = "http://44.233.114.160:8090/wishlistItems"
 HEADERS = { "content-type": "application/json"}
 
 with open('app_conf.yml', 'r') as f:
