@@ -19,15 +19,28 @@ from base import Base
 from item import Item
 from wishlistItem import WishlistItem
 import datetime
+import os.path
 
-with open('app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
-    datastore = app_config['datastore']
-    db_user = datastore['user']
-    db_password = datastore['password']
-    db_hostname = datastore['hostname']
-    db_port = datastore['port']
-    db_schema = datastore['db']
+if os.path.isfile('/config/app_conf.yml'):
+    print('external conf found, using it')
+    with open('/config/app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        datastore = app_config['datastore']
+        db_user = datastore['user']
+        db_password = datastore['password']
+        db_hostname = datastore['hostname']
+        db_port = datastore['port']
+        db_schema = datastore['db']
+else:
+    print('external conf not found, using local conf')
+    with open('app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        datastore = app_config['datastore']
+        db_user = datastore['user']
+        db_password = datastore['password']
+        db_hostname = datastore['hostname']
+        db_port = datastore['port']
+        db_schema = datastore['db']
 
     kafka_conf = app_config['kafka']
     kafka_server = kafka_conf['server']

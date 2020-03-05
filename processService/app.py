@@ -8,10 +8,18 @@ import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from connexion import NoContent
 from flask_cors import CORS
+import os.path
 
-with open('app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
-    datastore_file = app_config['datastore']['filename']
+if os.path.isfile('/config/app_conf.yml'):
+    print('external conf found, using it')
+    with open('/config/app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        datastore_file = app_config['datastore']['filename']
+else:
+    print('external conf not found, using local conf')
+    with open('app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        datastore_file = app_config['datastore']['filename']
 
 with open('log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())

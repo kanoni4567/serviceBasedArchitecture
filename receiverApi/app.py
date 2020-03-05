@@ -8,17 +8,28 @@ import yaml
 from connexion import NoContent
 from flask_cors import CORS
 from pykafka import KafkaClient
+import os.path
+
 
 STORE_SERVICE_ITEM_URL = "http://44.233.114.160:8090/items"
 STORE_SERVICE_WISHLIST_ITEM_URL = "http://44.233.114.160:8090/wishlistItems"
 HEADERS = { "content-type": "application/json"}
-
-with open('app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
-    kafka_conf = app_config['kafka']
-    kafka_server = kafka_conf['server']
-    kafka_port = kafka_conf['port']
-    kafka_topic = kafka_conf['topic']
+if os.path.isfile('/config/app_conf.yml'):
+    print('external conf found, using it')
+    with open('/config/app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        kafka_conf = app_config['kafka']
+        kafka_server = kafka_conf['server']
+        kafka_port = kafka_conf['port']
+        kafka_topic = kafka_conf['topic']
+else:
+    print('external conf not found, using local conf')
+    with open('app_conf.yml', 'r') as f:
+        app_config = yaml.safe_load(f.read())
+        kafka_conf = app_config['kafka']
+        kafka_server = kafka_conf['server']
+        kafka_port = kafka_conf['port']
+        kafka_topic = kafka_conf['topic']
 
 with open('log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
