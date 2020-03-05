@@ -1,11 +1,11 @@
 version: 1
 datastore:
-      user: admin
+      user: root
       password: password
-      hostname: localhost
+      hostname: 44.233.114.160
       port: 3306
-      db: acit3855
+      db: events
 kafka:
-      server: localhost
+      server: 44.233.114.160
       port: 9092
       topic: events
