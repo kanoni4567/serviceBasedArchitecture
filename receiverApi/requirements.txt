@@ -2,4 +2,4 @@ connexion==2.5.0
 requests==2.22.0
 swagger-ui==0.1.2
 pykafka==2.8.0
-flask-cors==3.0.8
+flask-cors==3.0.9
